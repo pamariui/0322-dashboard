@@ -46,7 +46,7 @@ const Dashboard = () => {
         <div className='main-container'>
             {
               user ? 
-              <div> 
+              <div className='user-container'> 
                 <h2>{user.results[0].name.title} {user.results[0].name.first} {user.results[0].name.last}</h2>
                 <p>Email: {user.results[0].email}</p>
                 <p>Phone: {user.results[0].phone}</p>
