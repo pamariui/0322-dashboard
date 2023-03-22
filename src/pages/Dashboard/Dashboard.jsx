@@ -1,45 +1,59 @@
 import React, {useState, useEffect} from 'react'
 import Main from '../../components/Main';
-import Post from '../../components/Post';
 import Spinner from '../../components/Spinner';
-import { getPost } from '../../utils/api';
+import { getUsers } from '../../utils/api';
 import './style.css';
 
 const Dashboard = () => {
 
-  const [posts, setPost] = useState(null);
 
-  const getAllPosts = async () => {
-    let data = await getPost();
+  const [user,setUser] = useState(null);
+ 
+  const getAllUsers = async () => {
+    let data = await getUsers();
     if(data instanceof Error) {
       console.log(data);
     } else {
-      setPost(data);
+      setUser(data);
+      console.log(data.results[0]);
     }
   }
 
   useEffect(() => {
     setTimeout(() => {
-      getAllPosts();
-    },5000)
+      getAllUsers();
+    },2)
   },[]);
 
   return (
     <Main>
       <div className='container'>
         <div className='top-containers'>
-          <div className='left'>
-            a
+          <div className='left'>{
+            user ?  
+              <div>{user.results[0].email}</div>
+             : <Spinner style={{backgroundColor: 'red'}}></Spinner>
+          }
           </div>
           <div className="right">
-              b
+              {
+                user ?  
+                <img src={`${user.results[0].picture.large}`} alt='user' />
+               : <Spinner style={{backgroundColor: 'red'}}></Spinner>
+              }
           </div>
         </div>
         <div className='main-container'>
             {
-              posts ? posts.map(post => (
-                <Post key={post.id} title={post.title} body={post.body}/>
-              )) : <Spinner style={{backgroundColor: 'red'}}></Spinner>
+              user ? 
+              <div> 
+                <h2>{user.results[0].name.title} {user.results[0].name.first} {user.results[0].name.last}</h2>
+                <p>Email: {user.results[0].email}</p>
+                <p>Phone: {user.results[0].phone}</p>
+                <p>Gender: {user.results[0].gender}</p>
+                <p>Age: {user.results[0].dob.age}</p>
+                <p>Location: {user.results[0].location.city}, {user.results[0].location.state}, {user.results[0].location.country}</p>
+              </div> : <Spinner style={{backgroundColor: 'red'}}></Spinner>
             }
         </div>
       </div>
@@ -47,4 +61,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;

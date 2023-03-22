@@ -1,14 +1,14 @@
-const getPost = async () => {
-    try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-      if(response.status === 200) {
-        return await response.json()
-      }
-    } catch (error) {
-      console.log(error);
+const getUsers = async () => {
+  try {
+    const response = await fetch('https://randomuser.me/api/');
+    if(response.status === 200) {
+      return await response.json()
     }
-  };
-
-  export {
-    getPost
+  } catch (error) {
+    console.log(error);
   }
+}
+  export {
+    getUsers
+  }
+
